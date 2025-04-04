@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuestionario SEN</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #232D4B;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .hidden { display: none; }
+    .icon {
+      width: 96px;
+      height: 96px;
+      display: block;
+      margin: 20px auto;
+    }
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    button {
+      background-color: #F79646;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+    }
+    .correct-answer {
+      background-color: #00AA9B;
+      color: white;
+      padding: 6px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .incorrect-answer {
+      background-color: #F04641;
+      color: white;
+      padding: 6px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .modo-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .boton-inicio {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    label input {
+      margin-right: 8px;
+    }
+  
+    .enunciado {
+      max-width: 60%;
+      margin: 0 auto 20px auto;
+      text-align: center;
+      white-space: normal;
+    }
+    
+    .respuestas {
+      max-width: 60%;
+      margin: 0 auto 20px auto;
+    }
+    
+    .enunciado {
+      max-width: 60%;
+      margin: 0 auto 30px auto;
+      text-align: center;
+      white-space: normal;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .respuestas label {
+      padding: 10px 8px;
+      margin-bottom: 12px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+    }
+
+    .nav-buttons, .boton-inicio {
+      margin-top: 20px;
+    }
+    
+    .correct-answer,
+    .incorrect-answer {
+      max-width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    #feedback {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    
+    .correct-answer,
+    .incorrect-answer,
+    .respuestas label {
+      max-width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px 8px;
+      margin-bottom: 12px;
+      display: block;
+      border-radius: 6px;
+    }
+    .correct-answer {
+      background-color: #00AA9B;
+      color: white;
+    }
+    .incorrect-answer {
+      background-color: #F04641;
+      color: white;
+    }
+    
+    @media (max-width: 480px) {
+      .enunciado,
+      .respuestas label,
+      .correct-answer,
+      .incorrect-answer {
+        max-width: 90%;
+        font-size: 1rem;
+      }
+
+      button {
+        width: 80%;
+        font-size: 1rem;
+        margin: 10px auto;
+        display: block;
+      }
+
+      .nav-buttons, .boton-inicio {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    
+    .titulo-pregunta {
+      text-align: center;
+      color: #F9B3B1;
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    
+    .titulo-pregunta {
+      text-align: center;
+      color: #F9B3B1;
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: nowrap;
+      margin-top: 10px;
+    }
+
+    .nav-buttons button,
+    .boton-inicio button {
+      font-size: 0.9rem;
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+
+    .respuestas label,
+    .correct-answer,
+    .incorrect-answer {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+      padding: 10px 8px;
+      border-radius: 6px;
+    }
+
+    .correct-answer {
+      background-color: #00AA9B;
+      color: white;
+    }
+
+    .incorrect-answer {
+      background-color: #F04641;
+      color: white;
+    }
+
+    #feedback {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    </style>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</head>
+<body>
+  <div id="inicio">
+    
+    <h2>Selecciona el modo</h2>
+    <div class="modo-buttons">
+      <button onclick="startMode('estudiar')">Estudiar</button>
+      <button onclick="startMode('test')">Test</button>
+    </div>
+  </div>
+
+  <div id="cuestionario" class="hidden">
+    
+    
+    <div class="titulo-pregunta">PREGUNTA</div>
+    <h2 id="question" class="enunciado"></h2>
+    
+    <div id="options" class="respuestas"></div>
+    <p id="feedback"></p>
+    <div class="nav-buttons"></div>
+  </div>
+
+  <script>
+    let preguntas = [
+{"question": "How can an end user with standard role Learner get access to assigned courses provided by the Manager?", "options": ["By accessing using the Roles view in SAP Companion for Desktop", "By accessing the Learner view of the SAP Enable Now Manager", "By using a direct URL that includes the assignment ID of the course", "By using a direct URL that includes the parameter \"course=true\""], "correct": ["B"]},
+{"question": "What actions are possible with hidden objects in the project explorer?  (Hay 2 respuestas correctas)", "options": ["Link to hidden objects.", "Use hidden objects' content in compound documents", "Create visible object references.", "Define a time range for objects to be hidden"], "correct": ["A", "B"]},
+{"question": "In a SAP Companion Guided Tour, one of the UI elements of the process does not provide a stable ID. What does SAP recommend the author does?  (Hay 2 respuestas correctas)", "options": ["Use media to visualize the next action.", "Raise a support ticket.", "Use in-app help tiles instead", "Use a centered bubble as a fallback"], "correct": ["A", "D"]},
+{"question": "Where can you find the instructions to configure SAP Companion?", "options": ["In the SAP Companion Authoring Guide on SAP Help Portal", "In the SAP Companion Integration Guide on SAP Help Portal", "In the SAP S/4HANA Configuration Guide on SAP Help Portal", "In the Troubleshooting Guide in the SAP Enable Now Into Center"], "correct": ["B"]},
+{"question": "According to SAP best practice, why should you use the SAP Companion Editor instead of Producer?  (Hay 2 respuestas correctas)", "options": ["To translate content", "To maintain system meta-information", "To create context help and guided tours", "To edit texts of help tiles and bubbles"], "correct": ["C", "D"]},
+{"question": "What is the purpose of the Toolbox group?  (Hay 2 respuestas correctas)", "options": ["It automates steps in the content production", "It distributes custom scripts to the authoring learn.", "It provides templates to the authoring team", "It provides media libraries to the authoring team."], "correct": ["C", "D"]},
+{"question": "Which steps are required to set up a work area in SAP Enable Now Manager?  (Hay 2 respuestas correctas)", "options": ["Set up notification settings specifically for the work area", "Inform learners via broadcast.", "Set up work area permissions.", "Provide customized work area resources"], "correct": ["C", "D"]},
+{"question": "What must you do to make SAP Companion and SAP Companion for Desktop appear as one in-app help solution from an user's perspective?  (Hay 2 respuestas correctas)", "options": ["Use different work areas for web and desktop content.", "Enable 'Fuzzy Match\".", "Use the \"Modern Style\" for SAP Companion for desktop.", "Turn the \"Hide SAP Companion for desktop on running SAP Companion\" playback property on."], "correct": ["C", "D"]},
+{"question": "To enable SAP Companion in SAP S/4HANA on-premise (release 1909) as target application in combination with SAP Enable Now, cloud edition, what must you do?  (Hay 2 respuestas correctas)", "options": ["Configure Web Dispatcher", "Activate CORS in SAP Enable Now Manager settings", "Change the Learner role's underlying permissions", "Set the parameter readCatalogue to true."], "correct": ["B", "D"]},
+{"question": "What are goals of the Recognition Validation workshop for target applications that are not on the Product Availability Matrix (PAM)?  (Hay 3 respuestas correctas)", "options": ["To provide a training plan for authors and administrators", "To identify limitations of guided-tour usage", "To set the customer expectations to a realistic level regarding in app help capabilities", "To define the target application-specific SAP Companion for Desktop designs", "To identify which content types to produce for which target application"], "correct": ["B", "C", "E"]},
+{"question": "What does SAP recommend you do when you work in a collaborative production scenario?  (Hay 2 respuestas correctas)", "options": ["Instruct authors to download the full work area tree to Producer.", "Provide an authoring guideline and templates.", "Create a group for each content project on root level of the workarea", "Assign a personal group to each author for content creation."], "correct": ["B", "D"]},
+{"question": "What is the use of the Collector in book pages?", "options": ["To store variables", "To track mouse locations", "To track events and trigger actions", "To store quiz results"], "correct": ["C"]},
+{"question": "What are characteristics of sustainable content production?  (Hay 3 respuestas correctas)", "options": ["Multi-modality", "No references", "Generic library views", "Maintainability", "No redundancies"], "correct": ["A", "D", "E"]},
+{"question": "Why does a SAP Enable Now Manager, HANA edition on premise require a two-tier infrastructure?", "options": ["Apache Tomcat must be installed as a standalone server.", "The SAP HANA database runs on Linux but Apache Tomcat for SAP Enable Now Manager has to run on Windows.", "The SAP HANA database runs on Windows but Apache Tomcat for SAP Enable Now Manager has to run on u Linux", "The SAP HANA database requires a 64 bit system but Apache Tomcat needs 32 bit."], "correct": ["A"]},
+{"question": "SAP Companion and SAP Companion for Desktop are both used as in-app help. Which of the following characteristics apply only to SAP Companion?  (Hay 3 respuestas correctas)", "options": ["It provides in-app authoring without requiring SAP Enable Now Producer.", "It works on iPads and Android tablets", "It requires client installation", "It provides default SAP content for SAP S/4 HANA and other SAP solutions", "It also works for certain desktop applications"], "correct": ["A", "B", "D"]},
+{"question": "The customer uses SAP Enable Now and wants to use SAP Companion for WebDynpro user interfaces embedded in an SAP Fiori Launchpad. Which configuration parameter enables the system-specific info tile for this case?", "options": ["LAFeedback=true", "leamingAppProjectMode-demo", "useGlobalHelp-true", "whatsNewDirect=false"], "correct": ["C"]},
+{"question": "What are some deliverables of the strategy and configuration phase?  (Hay 3 respuestas correctas)", "options": ["An infrastructure diagram Authoring guidelines", "A customized Producer installer", "Corporate design customization", "A custom application profile"], "correct": ["A", "C", "D"]},
+{"question": "You want to run SAP Companion in extensibility scenario for SAP Success Factors including SAP standard learning content. What must you create?  (Hay 2 respuestas correctas)", "options": ["A connected workarea, mirroring the required SAP standard learning contents.", "An extended workarea that extends the system workarea.", "Duplicates of all relevant SAP standard contents.", "An extended workarea that extends a connected workarea."], "correct": ["B", "D"]},
+{"question": "What are some characteristics of the integration between SAP Enable Now and a customer's Identity Provider (IDP)?  (Hay 2 respuestas correctas)", "options": ["Only user names are replicated to SAP Enable Now Manager.", "Users must change their passwords on first login.", "IDP acts as the identity source.", "Authentication protocol is SAML"], "correct": ["C", "D"]},
+{"question": "What kind of objects, structures, or elements can be pasted as reference?  (Hay 3 respuestas correctas)", "options": ["Work areas", "Media objects", "Resources", "Text units", "Groups"], "correct": ["B", "C", "E"]},
+{"question": "You are creating a SAP Companion guided tour. You want to record the selection of a value from a drop down list. How can you do this?", "options": ["Use SHIFT+A or the middle mouse button to postpone the assignment of the hotspot.", "Select the value max. 1 second after the drop down list was opened.", "Use the pause button and assign the hotspot in pause mode."], "correct": ["A"]},
+{"question": "At the file system level, which file do all SAP Enable Now objects have?", "options": ["entity.xml", "preview.png", "workarea.dat", "slide.xml"], "correct": ["A"]},
+{"question": "What are typical characteristics of the SAP Companion for Desktop cache?  (Hay 3 respuestas correctas)", "options": ["Only files once requested will be cached", "The update frequency cannot be changed", "It reduces the network load.", "Lesson.js timestamp change is the trigger for a cache update.", "When a new SAP Companion for Desktop version is installed, the local cache must be deleted manually."], "correct": ["A", "C", "D"]},
+{"question": "What is a characteristic of playback settings?  ]", "options": ["They can be set on project level by using the Project Overde settings.", "They can be modified by end users.", "They are saved in the trainer resource."], "correct": ["A"]},
+{"question": "Which of the following are characteristics of a SAP Companion guided tour?  (Hay 2 respuestas correctas)", "options": ["It offers step-by-step user support in an application", "It can execute click-interaction on behalf of the user.", "It can be auto-started by adding &help-tour-<projectuid to the URL.", "Once started, it cannot be terminated by the end user anymore."], "correct": ["A", "C"]},
+{"question": "Your customer wants to provide access to content on SAP Enable Now Manager using deep links. What must you consider?  (Hay 2 respuestas correctas)", "options": ["A deep link including auth provides authenticated access to the published version", "A deep link including../anonym.. Provides unauthenticated access to the published version.", "A deep link including /wa/ provides authoning preview to the latest version", "A deep link without infix provides direct access to the latest version."], "correct": ["A", "D"]},
+{"question": "Which of the following parameters build a SAP Companion context?  (Hay 3 respuestas correctas)", "options": ["Protocol", "Product version", "Product name", "System", "Framework ID"], "correct": ["B", "C", "E"]},
+{"question": "What are SAP best practices when creating book page content?  (Hay 2 respuestas correctas)", "options": ["Avoid using media objects.", "Use descriptive, individual names for objects.", "Use shapes to create buttons with links", "Create book pages based on templates."], "correct": ["B", "D"]},
+{"question": "Your customer wants to access SAP Enable Now documentation from SAP Solution Manager. What do you tell the customer?", "options": ["Any SAP Enable Now user needs an user in SAP Solution Manager.", "SAP Solution Manager replicates the complete repository of SAP Enable Now Manager.", "The integration is possible for SAP Solution Manager 7.2 or newer."], "correct": ["C"]},
+{"question": "What are some SAP best practices in a content production scenario?  | (Hay 2 respuestas correctas)", "options": ["Keep content granular, explicit, in-depth, and avoid redundancies.", "Use custom properties and tagging to keep content maintainable", "Use connected work areas for best possible server performance", "Cover entire end-to-end processes in a single recording."], "correct": ["A", "B"]},
+{"question": "When you use custom scripts, what must you consider?  | (Hay 2 respuestas correctas)", "options": ["In SAP Enable now, cloud edition, you must implement custom scripts in the system work area only Custom scripts are by default NOT error-handled.", "You must create a backup copy of the entire work area before you run custom scripts.", "Custom scripts must NOT be published."], "correct": ["B", "C"]},
+{"question": "What should you consider when rolling out SAP Companion and SAP Companion for Desktop in parallel?", "options": ["Ensure the end user PCs have at least 100 GB of free disk space available.", "Ensure the end users have appropriate windows permissions to run SAP Companion.", "Configure SAP Companion for Desktop to disappear if SAP Companion is active in the browser.", "Configure SAP Companion technology to use for each target system"], "correct": ["D"]},
+{"question": "Your customer's IT department does not want to roll out SAP Companion. Their concern is that SAP Enable Now tracks sensitive user dela and sends it to SAP. How do you address this concern?  (Hay 2 respuestas correctas)", "options": ["SAP Companion tracking data will be AES256-encrypted before being sent to SAP servers.", "SAP Companion tracking can be freely configured, by default, tracking is \"off\"", "SAP Companion tracking data will be anonymized before being sent to the SAP servers.", "SAP Companion sends tracking data only to the customer tenant, not to any other SAP servers."], "correct": ["C", "D"]},
+{"question": "In which cases does a work area link to another object open a new trainer instance as a new tab in the current browser instance?  (Hay 3 respuestas correctas)", "options": ["If the target object is a text unit.", "If the target object is out-of-scope from the current perspective.", "If the \"open in new window property is set to \"true\".", "If the target object is hidden.", "If the target object is not published."], "correct": ["A", "B", "C"]},
+{"question": "What can be triggered by a workflow?  | (Hay 2 respuestas correctas)", "options": ["Sending e-mails to receivers of a workflow", "Publishing objects", "Changing of contexts", "Locking of work areas"], "correct": ["A", "B"]},
+{"question": "Your customer uses an Identity Provider (IDP) that does not support iFrame-based authentication. How can you enable Single Sign On for SAP Companion?  (Hay 2 respuestas correctas)", "options": ["By adding the Upload Active Content permission to all users.", "By ensuring that customer's browser policy allows popups for all target applications.", "By using standard http-ports only.", "By adding now Window SAML=true to the SAP Companion configuration of all target applications."], "correct": ["B", "D"]},
+{"question": "When you test a SAP Companion configuration, what must you consider?", "options": ["SAP Companion can only be tested by the target application's backend administrator.", "Backend configuration is ignored as soon as one parameter is added to the URL", "Target configurations replace URL-added parameters.", "URL-added parameters replace parameters configured in the target backend."], "correct": ["D"]},
+{"question": "An animation in your book page does not start in the preview. What are some possible reasons?  (Hay 2 respuestas correctas)", "options": ["animation duration is set to 99", "In the object list, the animation object is placed behind the animated object.", "The animation is triggered by a Time Control, but the Time Control is not started \"on pege loaded\".", "In the parameter section of the animation object, the target object is not set"], "correct": ["C", "D"]},
+{"question": "In which case should you use automated re-recording?", "options": ["When the user interface layout changed, but the process is still the same.", "When the interface is the same, but the process changed.", "When the user interface layout changed and the process changed.", "When the user interface was migrated from a rich client to a web client."], "correct": ["A"]},
+{"question": "Your customer uses SAP Enable Now, cloud edition and SAP Companion for Desktop. They want to use an on-premise web server to deliver the content. What must they consider?", "options": ["A specific xdnt file pointing to the web server must be created and uploaded to the SAP Enable Now Manager.", "The web server must be a Microsoft IIS web server.", "MIME type inav must be supported by the web server.", "The web server must support CORS."], "correct": ["D"]},
+{"question": "A customer asks you to validate recognition and re-recognition for all applications involved in a project. What must the customer provide to you?  (Hay 3 respuestas correctas)", "options": ["All application-specific access requirements (access via terminal server, Citrix etc.)", "Administrator credentials for all applications", "Access and end user permissions to all applications", "Contact data of the application owners or IT administrators of all applications for possible inquires", "Custom-built SAP Enable Now recording profiles for all applications"], "correct": ["A", "C", "D"]},
+{"question": "What does SAP recommend you do before you update SAP Enable Now on-premise on behalf of a customer?  (Hay 2 respuestas correctas)", "options": ["Ask the customer to download the updated SAP Enable Now binaries", "Use the Preview instance of the new version to test customer's content.", "Back up all entity.xml files to an external medium.", "Back up the file repository and database"], "correct": ["B", "D"]},
+{"question": "What must you consider, when you want to restore an object to a previous version?", "options": ["All versions lower than the reverted version are deleted.", "A copy of the to be restored object becomes a new version.", "Restoring versions is only possible in Instant Producer."], "correct": ["B"]},
+{"question": "What major tasks must be accomplished prior to creating a SCORM package for a customer's Learning Management System (LMS)?  (Hay 2 respuestas correctas)", "options": ["Configure playback settings.", "Enable all objects for documentation.", "Build course structure", "Merge books and projects."], "correct": ["A", "C"]},
+{"question": "How can you address a pre-filtered view of a structure in a library published to a web server?", "options": ["By adding the end user filter's code directly to library html", "By activating an author filter", "By adding the filter-specific library.bxt infix to the URL", "By cloning the structure and deleting the unwanted duplicates"], "correct": ["C"]},
+{"question": "A customer uses SAP S/4HANA. They fetched and edited SAP's default learning content partly in SAP Enable Now. The SAP S/4HANA system will be upgraded to the latest version soon. What must the customer do to still see both the default SAP content and the modified content?", "options": ["Change the server address for the SAP default content server.", "Add the new SAP S/4HANA version number to the SAP Companion context for all modified content objects.", "Add the new SAP S/4HANA version to the Keywords property of the SAP Companion project.", "Add the new SAP S/4HANA version to the SAP Companion context for the default SAP content."], "correct": ["B"]},
+{"question": "SAP Companion for Desktop was rolled out on premise and content was published. The content does not start on the end-user machines. What are some possible reasons?  (Hay 2 respuestas correctas)", "options": ["The required resources have not been published", "The notification settings in SAP Enable Now Manager were not configured correctly.", "SAP Enable Now Manager's password policy does not meet the customer's company standards.", "The end user computers cannot access the SAP Enable Now Manager where the content was published"], "correct": ["A", "D"]},
+{"question": "In which cases does a work area link to another object open a new trainer instance as a new tab in the current browser instance?  (Hay 3 respuestas correctas)", "options": ["If the target object is a text unit.", "If the target object is hidden.", "If the target object is out-of-scope from the current perspective.", "If the \"open in new window property is set to \"true\".", "If the target object is not published."], "correct": ["A", "C", "D"]},
+{"question": "What is the relationship between book page templates and book page instances?", "options": ["Bock page instances and their underlying book page templates must be kept in the same group", "Objects inherited from a book page template can be deleted in the book page instance by the author.", "Objects in a book page instance inherit their properties from the book page template."], "correct": ["C"]},
+{"question": "A customer wants to run SAP Companion in a custom content scenario (only customer content, no SAP standard content) for a cloud application. Which of the following servers are required? (Hay 3 respuestas correctas)", "options": ["Customer's FTP server", "Customer's SAP Enable Now Manager", "Customer's target application", "SAP Enable Now Info Center", "SAP Companion framework server"], "correct": ["B", "C", "E"]},
+{"question": "What is the valid release schedule for SAP Enable Now and SAP Companion?  |", "options": ["SAP Enable Now is released twice a year, SAP Companion more often.", "All SAP Enable Now components are released once per year.", "SAP Companion and SAP Enable Now are released quarterly."], "correct": ["C"]},
+{"question": "What are the best practices to create a recording?  (Hay 2 respuestas correctas)", "options": ["Set up the recorded application in the same way the end user would use it.", "Use the Quick Recording option for the best possible recording results.", "Record processes end-to-end independent of their length or complexity", "Create a short storyboard with the steps to be recorded and the data to be used."], "correct": ["A", "D"]},
+{"question": "A Learning Management System (LMS) does NOT receive any results or scores from the processed SAP Enable Now course, what could be the reason for this issue?  (Hay 2 respuestas correctas)", "options": ["The tracking back end from the playback settings was set to SCORM (automatic)", "The tracking back end from the playback sellings was set to \"none\".", "The LMS does not provide an SAP Enable Now interface", "The configuration of the Result Type option does not meet the LMS requirements."], "correct": ["A", "B"]},
+{"question": "Which of the following multitier architectures are possible with SAP Enable Now Manager, HANA option on premise?  (Hay 2 respuestas correctas)", "options": ["Two-tier: application server and file storage on one Microsoft Windows machine, SAP HANA database on Linux", "Three-tier application server, file storage, and SAP HANA database all on different machines (all on Microsoft u Windows)", "Three-tier application server, file storage, and SAP HANA database all on different machines (SAP HANA database on Linux)", "One-tier: all components installed on the same Microsoft Windows machine"], "correct": ["A", "C"]},
+{"question": "What are characteristics of workflows in the content development process?  (Hay 3 respuestas correctas)", "options": ["Workflows are assigned at the work area level only.", "Workflows may be defined for any content development process", "Only one workflow may be assigned to a single SAP Enable Now object at a time.", "Multiple workflows may be available in a single work area.", "All statuses must be used in each workflow created"], "correct": ["B", "C", "D"]},
+{"question": "What action must you take to ensure that authors can edit content for the SAP Companion?  (Hay 2 respuestas correctas)", "options": ["Activate SAP Companion edit mode for the user via URL or configuration parameter.", "Grant edit permission to the authors on the respective workareas", "Assign the administrator role to authors in SAP Enable Now Manager.", "Request S-Users for all authors in SAP Help Portal"], "correct": ["A", "B"]},
+{"question": "Connectivity to which of the following servers is mandatorily required in a SAP Companion extensibility scenario for SAP S/4HANA cloud?  (Hay 3 respuestas correctas)", "options": ["SAP User Assistance Content Platform (UACP)", "SAP.COM", "SAP'S Enable Now Manager", "SAP Analytics Cloud", "Customer's Enable Now Manager"], "correct": ["B", "C", "E"]},
+{"question": "What must you consider when you customize resources?  (Hay 2 respuestas correctas)", "options": ["Assign customizing permissions to all authors", "Modify existing default styles instead of creating customer specific styles.", "Finalize customization before content production starts.", "Do NOT modify standard style resources."], "correct": ["C", "D"]},
+{"question": "How can you deliver a role-based SAP Companion for Desktop?  (Hay 2 respuestas correctas)", "options": ["Connect SAP Companion for Desktop with the target application and use the roles provided by the application,", "Use the roles property and publish one SAP Companion for Desktop for all users.", "Activate tracking in the SAP Companion for Desktop playback settings.", "Create and publish several SAP Companion for Desktop objects with underlying references and use the filter property provided"], "correct": ["A", "D"]},
+{"question": "Which of the following data types are supported in SAP Enable Now? (Hay 3 respuestas correctas)", "options": ["HTML", "DTEXT", "CHECKSUM", "CONTEXT", "INTEGER"], "correct": ["A", "B", "E"]},
+{"question": "Which of the following third party document rendering solutions does SAP Enable Now Producer support?", "options": ["Microsoft Word", "Apple Pages", "Google Docs"], "correct": ["A"]},
+{"question": "To determine re-recognition of Ul control objects by SAP Companion reliably, what kind of object attribute values are required?  (Hay 2 respuestas correctas)", "options": ["Dynamic", "Persistent", "Numeric", "Unique"], "correct": ["B", "D"]},
+{"question": "A customer wants to know whether they can use SAP Companion for Desktop for a non-SAP target application that is not listed in the Product Availability Matrix (PAM). What do you tell the customer?  (Hay 2 respuestas correctas)", "options": ["The PAM only shows limitations for SAP applications. Non SAP applications are supported out of the box", "SAP Companion for Desktop cannot be rolled out for products not listed in the PAM,", "To run a joint Recognition Validation workshop to test re-recognition at page and object level.", "SAP Companion for Desktop can be rolled out for any desktop application, but will support the application context level only."], "correct": ["C", "D"]},
+{"question": "A customer wants to implement SAP Companion for Desktop from SAP Enable Now, cloud edition. What technical prerequisites do you have to consider?  (Hay 2 respuestas correctas)", "options": ["The customer's firewall must allow access to the customer's SAP Enable Now Manager instance from any end user computer.", "The SAP Enable Now App Launcher has to be installed on every user computer.", "SAP Machine JRE must be rolled out to every user computer.", "All users must be synchronized to the SAP Identity Authorization Service (IAS) tenant before the implementation."], "correct": ["A", "B"]},
+{"question": "Your customer is localizing SAP Companion content. The localization process has not been fully completed yet. English should be the fallback language of non-localized content. What should the customer consider in that scenario?  (Hay 2 respuestas correctas)", "options": ["Contexts with incomplete content localizations result in an error message.", "If content is not localized completely, a user must switch between different UI languages to see all information.", "Although the global fallback language can be freely configured, the default is English.", "Content that is not yet translated is displayed in the global fallback language."], "correct": ["C", "D"]},
+{"question": "Which SAP Enable Now component allows you to publish to a Learning Management System AND to web servers?", "options": ["Producer", "SAP Companion for Desktop", "Web Editor", "Instant Producer"], "correct": ["A"]},
+{"question": "An author cannot access the SAP Companion authoring functions in the SAP Companion panel. What could be reasons?  (Hay 2 respuestas correctas)", "options": ["The extensibility scenario is configured, but SAP User Assistance Content Platform (UACP) is offline.", "The author is using a web browser that does not support the SAP Companion browser extensions.", "The URL parameter \"help-editor-true\" was not added to the URL.", "The author is working in a system, where the standard content scenario has been configured"], "correct": ["B", "D"]},
+{"question": "You customer wants to use machine translation on a complex tree structure that contains both objects to be translated and other objects. How can SAP Enable Now's machine translation support this use case?  (Hay 2 respuestas correctas)", "options": ["The machine translation creates duplicates of all content objects in the structure independent of their status property value.", "To be translated objects can be filtered by a certain status value. Only matching objects will be translated.", "The status of objects translated successfully can be automatically changed by the machine translation function.", "The machine translation function can't change any server properties but is able to filter for them."], "correct": ["B", "C"]},
+{"question": "You have created multiple references for an object in your work area. You want to analyze how many references you have created and where they are used. How does the Producer support this requirement?  (Hay 2 respuestas correctas)", "options": ["By displaying references in the Description field of each object", "By activating the Reference Tree or Reference List view", "By activating the Structure Reference Counter in \"View\"", "By assigning different colors to object references in the Project Explorer tree"], "correct": ["B", "C"]},
+{"question": "A customer wants to know whether they can use SAP Companion for Desktop for a non-SAP target application that is not listed in the Product Availability Matrix (PAM). What do you tell the customer?  (Hay 2 respuestas correctas)", "options": ["To run a joint Recognition Validation workshop to test re-recognition at page and object level.", "SAP Companion for Desktop cannot be rolled out for products not listed in the PAM,", "The PAM only shows limitations for SAP applications. Non SAP applications are supported out of the box", "SAP Companion for Desktop can be rolled out for any desktop application, but will support the application context level only."], "correct": ["A", "D"]},
+{"question": "You implement SAP Enable Now and want to use the customer's existing infrastructure and applications. Which integrations do you recommend to the customer? or What do you recommend to the customer? (Hay 2 respuestas correctas)", "options": ["Use the customer's Business Process Model data as a starting point for the Library design.", "Import existing customer content via SCORM into SAP Enable Now Manager.", "Use 3rd party analytics data to improve SAP Enable Now Manager reports.", "Use the customer's Learning Management System (LMS) for SCORM courseware delivery and tracking."], "correct": ["B", "D"]},
+{"question": "To localize a simulate on project, which SAP Enable Now Producer features can you use?  (Hay 3 respuestas correctas)", "options": ["Content categories", "Machine translation", "Re-recording", "Export author texts to XLIFF formal", "Screen area anonymization"], "correct": ["B", "C", "D"]},
+{"question": "Your customer uses SAP Companion for Desktop guided tours for SAP Success Factors and now wants to use SAP Companion instead. The customer asks you if the existing content can be converted for reuse in Web Assistant What do you reply?", "options": ["Content conversion can be done by using a certified SAP partner", "SAP Companion for Desktop projects can be reused in SAP Companion without conversion.", "Content conversion can be done by using the standard conversion script.", "Content conversion is NOT possible."], "correct": ["A"]},
+{"question": "What is the purpose of the compound document generation function?  (Hay 3 respuestas correctas)", "options": ["Merge different contents from a work area into one document.", "Merge different contents from the resource tree into one document.", "Merge different contents from a book into one document", "Merge SAP Enable Now contents and external contents into one document.", "Merge different contents from a group into one document"], "correct": ["A", "C", "E"]},
+{"question": "You want to export a translation to XLIFF format. The file should contain text content from several projects.Which server task property can you use to control the export?", "options": ["Watcher", "Type", "Short description", "Status"], "correct": ["B"]},
+{"question": "What is the purpose of the strategy workshop?  (Hay 2 respuestas correctas)", "options": ["To implement single sign-on", "To train the authoring learn", "To clarity and understand the implementation scope", "To plan all future project phases in detail"], "correct": ["B", "C"]},
+{"question": "How do you edit course assignments in SAP Enable Now Manager once they have been set up?  (Hay 2 respuestas correctas)", "options": ["Select Assignments in the Administration menu.", "Use the Filter function and enter the object name the course was created under", "Search all folders in the work area to locate the course.", "Select the object the course was created for and select the course tab"], "correct": ["A", "D"]},
+{"question": "In Producer, what must you consider when you modify files manually (not using the Producer GUI)?  (Hay 2 respuestas correctas)", "options": ["Producer reports file modifications to the SAP Enable Now Manager repository as soon as file editing is u finished", "Producer displays the results of file modifications after the file is saved", "Producer will NOT recognize manual changes automatically.", "Producer uses the unmodified files from the workarea cache until a refresh object\" is executed."], "correct": ["C", "D"]},
+{"question": "A customer wants to use the SAP Companion for Desktop for a target application that does not offer reliable re-recognition on object level. Which content types can still be offered?  (Hay 2 respuestas correctas)", "options": ["Interactive guided tours", "Page-based context help bubbles", "Guided tours with bubbles pointing to controls", "Highlights around text input fields"], "correct": ["A", "B"]},
+{"question": "An SAP S/4HANA customer uses SAP Companion in standard content mode. Now the customer wants to customize and enhance the content using extensibility mode. What are some steps that the customer must do?.  (Hay 3 respuestas correctas)", "options": ["Run the housekeeping function to delete inactive users", "Change SAP S/4HANA's configuration accordingly.", "Run SAP Enable Now Manager cloud edition or on premise edition on HANA", "Activate the In-App Help service on SAP BTP.", "Create a connected work area, replicating the SAP standard learning content to the customer tenant."], "correct": ["C", "D", "E"]},
+{"question": "What does SAP recommend you do to secure access management in the SAP Enable Now Manager?  | (Hay 2 respuestas correctas)", "options": ["Provide the View Published Content work area permission to the root object of the identity tree.", "Provide the Edit Work area permission for all work areas to every master author.", "Limit the number of role members for administrators, master authors, and report viewers", "Remove the View Published Content standard work area permission for the root object from restricted audience work areas"], "correct": ["C", "D"]},
+{"question": "Which of the following user storage and authentication options are possible in SAP Enable Now, cloud edition?  (Hay 3 respuestas correctas)", "options": ["Users are not stored anywhere; access is anonymous without the need for authentication.", "Users are stored in customer's IDP; authentication via Single Sign On", "Users are stored in SAP S/4HANA authentication with username and password.", "Users are stored in SAP Enable Now Manager only; authentication with username and password.", "Users are stored in SAP IAS authentication via Single Sign On."], "correct": ["B", "D", "E"]}
+];
+
+    let indice = 0;
+    let modo = "";
+    let score = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function startMode(m) {
+      modo = m;
+      indice = 0;
+      score = 0;
+      document.getElementById("inicio").classList.add("hidden");
+      document.getElementById("cuestionario").classList.remove("hidden");
+      if (modo === "test") preguntas = shuffle(preguntas);
+      mostrarPregunta();
+    }
+
+    function mostrarPregunta() {
+      const pregunta = preguntas[indice];
+      document.getElementById("question").textContent = `${indice + 1}. ${pregunta.question}`;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      document.getElementById("feedback").textContent = "";
+
+      const nav = document.querySelector(".nav-buttons");
+      nav.innerHTML = "";
+
+      const anterior = document.createElement("button");
+      anterior.textContent = "<";
+      anterior.onclick = anteriorPregunta;
+
+      const siguiente = document.createElement("button");
+      siguiente.textContent = ">";
+      siguiente.onclick = siguientePregunta;
+
+      const inicioBtn = document.createElement("button");
+      inicioBtn.textContent = "Inicio";
+      inicioBtn.onclick = volverAlInicio;
+
+      const comprobar = document.createElement("button");
+      comprobar.id = "checkButton";
+      comprobar.textContent = "Comprobar";
+      comprobar.onclick = comprobarRespuesta;
+
+      if (modo === "estudiar") {
+        nav.appendChild(anterior);
+        nav.appendChild(inicioBtn);
+        nav.appendChild(siguiente);
+        comprobar.style.display = "none";
+
+        pregunta.options.forEach((op, i) => {
+          const letra = String.fromCharCode(65 + i);
+          if (pregunta.correct.includes(letra)) {
+            const div = document.createElement("div");
+            div.className = "correct-answer";
+            div.textContent = op;
+            optionsDiv.appendChild(div);
+          }
+        });
+      } else {
+        nav.appendChild(anterior);
+        nav.appendChild(comprobar);
+        nav.appendChild(siguiente);
+
+        const opciones = pregunta.options.map((op, i) => ({ letra: String.fromCharCode(65 + i), texto: op }));
+        const mezcladas = shuffle(opciones);
+        mezcladas.forEach((op, i) => {
+          const label = document.createElement("label");
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.name = "option";
+          checkbox.value = op.letra;
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(` ${String.fromCharCode(65 + i)}. ${op.texto}`));
+          optionsDiv.appendChild(label);
+        });
+
+        let contenedorInicio = document.querySelector(".boton-inicio");
+        if (!contenedorInicio) {
+          contenedorInicio = document.createElement("div");
+          contenedorInicio.className = "boton-inicio";
+          contenedorInicio.appendChild(inicioBtn);
+          document.getElementById("cuestionario").appendChild(contenedorInicio);
+        }
+      }
+    }
+
+    function comprobarRespuesta() {
+      const seleccionadas = Array.from(document.querySelectorAll('input[name="option"]:checked')).map(e => e.value);
+      const correctas = preguntas[indice].correct;
+      const iguales = JSON.stringify(seleccionadas.sort()) === JSON.stringify(correctas.sort());
+
+      if (iguales) score++;
+      document.getElementById("feedback").textContent = iguales ? "¡Correcto!" : `Incorrecto. Correctas: ${correctas.join(", ")}`;
+
+      document.querySelectorAll('input[name="option"]').forEach(e => {
+        const label = e.parentElement;
+        if (correctas.includes(e.value)) label.classList.add("correct-answer");
+        else if (e.checked) label.classList.add("incorrect-answer");
+      });
+    }
+
+    function siguientePregunta() {
+      if (indice < preguntas.length - 1) {
+        indice++;
+        mostrarPregunta();
+      } else if (modo === "test") {
+        document.getElementById("question").textContent = `Test finalizado. Puntuación: ${score}/${preguntas.length}`;
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("feedback").textContent = "";
+
+        let resultado = document.createElement("p");
+        if (score >= 64) {
+          resultado.textContent = "Enhorabuena, has superado la prueba";
+        } else {
+          resultado.textContent = "No has superado la prueba. Te recomiendo repetir el test";
+        }
+        document.getElementById("options").appendChild(resultado);
+
+        
+      }
+    }
+
+    function anteriorPregunta() {
+      if (indice > 0) {
+        indice--;
+        mostrarPregunta();
+      }
+    }
+
+    function volverAlInicio() {
+      document.getElementById("cuestionario").classList.add("hidden");
+      document.getElementById("inicio").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
